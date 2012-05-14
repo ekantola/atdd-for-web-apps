@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>TimerApp</title>
+
+  <style>
+    .timer-display { font-size: 48pt; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="timer-display">0.000</div>
+  <button class="toggle-button">Start</button>
+  <button class="reset-button" disabled>Reset</button>
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>
+;(function() {
+  "use strict"
+
+  var updateInterval
+  var startTime
+
+  var $timerDisplay = $('.timer-display')
+  var $toggleButton = $('.toggle-button')
+
+  $toggleButton.click(toggleTimer)
+
+  function toggleTimer() {
+    (startTime ? stopTimer : startTimer)()
+  }
+  function startTimer() {
+    $toggleButton.text("Stop")
+    startTime = new Date().getTime()
+    setInterval(updateTimer, 1)
+  }
+  function stopTimer() {
+    clearInterval(updateInterval)
+    startTime = undefined
+    $toggleButton.text("Start")
+  }
+  function updateTimer() {
+    if (startTime) {
+      $timerDisplay.text(formatTime(new Date().getTime() - startTime))
+    }
+  }
+  function formatTime(millis) {
+    var secs = Math.floor(millis / 1000)
+    millis = millis - secs*1000
+    return secs + "." + lpad(millis, "0", 3);
+  }
+  function lpad(obj, padding, max) {
+    var str = ""+obj
+    while (str.length < max) {
+      str = padding+str
+    }
+    return str
+  }
+}())
+</script>
+</html>
+

@@ -9,15 +9,9 @@ jasmine.PrettyPrinter.prototype.format = (value) ->
 
 beforeEach ->
   this.addMatchers {
-    toBeDisabled: -> this.actual.attr("disabled")?,
-    toBeEnabled: -> not this.actual.attr("disabled")?,
-    toBeAtLeast: (expectedMin) -> this.actual >= expectedMin
+    toBeEnabled: -> this.actual.length > 0 and not this.actual.attr("disabled")?
   }
 
-window.millisOf = (timer) ->
-  [rest, millis] = timer.text().split(".")
+window.millisOf = ($timerDisplay) ->
+  [rest, millis] = $timerDisplay.text().split('.')
   parseInt(millis, 10)
-
-window.secsOf = (timer) ->
-  [secs, rest] = timer.text().split(".")
-  parseInt(secs, 10)
